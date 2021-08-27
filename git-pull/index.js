@@ -16,8 +16,12 @@ dirs = dirs || fs.readdirSync('.').
     for(let d of dirs) {
         console.log('*****************************************************')
         console.log('dir:', d);
-        const {stdout,stderr} = await exec(`cd ${d} && ${cmd} && cd ..`);
-        stderr && console.error('stderr:', stderr);
-        stdout && console.log('stdout:', stdout);
+        try{
+            const {stdout,stderr} = await exec(`cd ${d} && ${cmd} && cd ..`);
+            stderr && console.error('stderr:', stderr);
+            stdout && console.log('stdout:', stdout);
+        }catch(err){
+            console.log('exec err:', err.message);
+        }
     }
 })()
